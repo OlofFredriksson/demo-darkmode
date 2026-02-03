@@ -19,7 +19,7 @@ async function compileScss() {
     }
 
     // Find all SCSS files
-    const scssFiles = await glob(join(srcDir, "**", "*.scss"));
+    const scssFiles = await glob("src/styles/**/*.scss");
 
     if (scssFiles.length === 0) {
         console.log(`No SCSS files found in ${srcDir}`);
