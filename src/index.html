@@ -14,6 +14,11 @@
             <nav>
                 <a href="#">Link 1</a>
                 <a href="#">Link 2</a>
+                <select id="colorModeSelect" aria-label="Color mode">
+                    <option value="auto">Auto</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                </select>
             </nav>
         </header>
         <main>
@@ -49,5 +54,15 @@
                 </div>
             </div>
         </footer>
+        <script module>
+            const colorModeSelect = document.getElementById("colorModeSelect");
+            const htmlElement = document.documentElement;
+
+            colorModeSelect.value = htmlElement.getAttribute("data-color-mode") || "auto";
+
+            colorModeSelect.addEventListener("change", (e) => {
+                htmlElement.setAttribute("data-color-mode", e.target.value);
+            });
+        </script>
     </body>
 </html>
