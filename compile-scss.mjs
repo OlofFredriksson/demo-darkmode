@@ -1,64 +1,52 @@
-#!/usr/bin/env node
-
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
+import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
-import { glob } from "glob";
+import { globSync } from "glob";
 import * as sass from "sass";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
-const srcDir = join(__dirname, "src", "styles");
-const distDir = join(__dirname, "dist/styles");
+const srcDir = path.join(__dirname, "src", "styles");
+const outDir = path.join(__dirname, "dist", "styles");
 
-async function compileScss() {
-    // Create dist directory if it doesn't exist
-    if (!existsSync(distDir)) {
-        mkdirSync(distDir, { recursive: true });
-    }
-
-    // Find all SCSS files
-    const scssFiles = await glob("src/styles/**/*.scss");
-
-    if (scssFiles.length === 0) {
-        console.log(`No SCSS files found in ${srcDir}`);
-        return;
-    }
-
-    console.log(`Compiling ${scssFiles.length} SCSS file(s)...`);
-
-    let compiledCount = 0;
-
-    for (const file of scssFiles) {
-        try {
-            const result = sass.compile(file, { style: "compressed" });
-            const relativePath = file
-                .replace(srcDir, "")
-                .replace(/\.scss$/, ".css");
-            const outputPath = join(distDir, relativePath);
-
-            // Create subdirectories if needed
-            const outputDir = dirname(outputPath);
-            if (!existsSync(outputDir)) {
-                mkdirSync(outputDir, { recursive: true });
-            }
-
-            writeFileSync(outputPath, result.css);
-            console.log(`✓ ${relativePath}`);
-            compiledCount++;
-        } catch (error) {
-            console.error(`✗ Error compiling ${file}:`);
-            console.error(error.message);
-        }
-    }
-
-    console.log(
-        `\nCompilation complete: ${compiledCount}/${scssFiles.length} file(s) compiled.`,
-    );
+// Ensure output directory exists
+if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
 }
 
-compileScss().catch((error) => {
-    console.error("Fatal error:", error);
+// Find all SASS files (excluding partials)
+const sassFiles = globSync(path.posix.join(srcDir, "*.scss")).filter(
+    (file) => !path.basename(file).startsWith("_"),
+);
+
+if (sassFiles.length === 0) {
+    console.log("No SASS files found to compile.");
+    process.exit(0);
+}
+
+let hasErrors = false;
+
+for (const file of sassFiles) {
+    const fileName = path.basename(file, ".scss");
+    const outFile = path.join(outDir, `${fileName}.css`);
+
+    try {
+        const result = sass.compile(file, {
+            style: "compressed",
+        });
+
+        fs.writeFileSync(outFile, result.css);
+        console.log(`✓ Compiled ${path.relative(__dirname, file)}`);
+    } catch (error) {
+        console.error(`✗ Error compiling ${file}:`);
+        console.error(error.message);
+        hasErrors = true;
+    }
+}
+
+if (hasErrors) {
     process.exit(1);
-});
+}
+
+console.log(`\nSuccessfully compiled SASS files to ${outDir}`);
