@@ -1,0 +1,46 @@
+/* Denna funktion skall finnas i ett Designsystem nära dig */
+@mixin apply-dark-mode-style() {
+    $self: &;
+    @at-root html[data-color-mode="auto"] {
+        @media (prefers-color-scheme: dark) {
+            #{$self} {
+                @content;
+            }
+        }
+    }
+
+    @at-root html[data-color-mode="dark"] {
+        #{$self} {
+            @content;
+        }
+    }
+}
+
+#app .card {
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border-primary);
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+#app .my-fancy-component {
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border-primary);
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 4px;
+
+    /* Demo utav felaktigt scenario utav nyttjande utav prefers-color-scheme */
+    /*
+    @media (prefers-color-scheme: dark) {
+        background-color: hotpink; //  Sägs att utvecklare gillar denna färgen 
+    }
+    */
+
+    /*
+    @include apply-dark-mode-style() {
+        background-color: hotpink;
+    }
+    */
+}

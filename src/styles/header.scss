@@ -1,0 +1,28 @@
+header {
+    background-color: var(--color-background-primary);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 1rem 2rem;
+    box-shadow: none;
+}
+
+header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+nav a {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+nav a:hover {
+    color: var(--color-primary);
+}

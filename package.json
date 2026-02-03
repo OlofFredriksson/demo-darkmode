@@ -1,0 +1,44 @@
+{
+  "name": "demo-darkmode",
+  "version": "0.0.4",
+  "private": true,
+  "license": "MIT",
+  "author": "Olof",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mts",
+    "compile-scss": "node compile-scss.mjs",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "lint": "run-s eslint prettier:check",
+    "lint:fix": "run-s eslint:fix prettier:write",
+    "prettier:check": "prettier . --check",
+    "prettier:write": "prettier . --write",
+    "pretest": "npm run lint",
+    "start": "node serve.mjs",
+    "test": ""
+  },
+  "commitlint": {
+    "extends": "@forsakringskassan/commitlint-config/no-jira"
+  },
+  "prettier": "@forsakringskassan/prettier-config",
+  "devDependencies": {
+    "@forsakringskassan/commitlint-config": "3.3.3",
+    "@forsakringskassan/eslint-config": "13.3.0",
+    "@forsakringskassan/eslint-config-cli": "13.3.0",
+    "@forsakringskassan/eslint-config-typescript": "13.3.0",
+    "@forsakringskassan/eslint-config-vitest": "13.3.0",
+    "@forsakringskassan/prettier-config": "3.3.4",
+    "esbuild": "0.27.2",
+    "express": "5.2.1",
+    "npm-run-all2": "8.0.4",
+    "sass": "1.97.3"
+  },
+  "engines": {
+    "node": ">= 22.0.0",
+    "npm": ">= 11.0.0"
+  },
+  "dependencies": {
+    "glob": "13.0.0"
+  }
+}
