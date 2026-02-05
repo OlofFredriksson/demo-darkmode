@@ -7,12 +7,21 @@ import * as sass from "sass";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const srcDir = path.join(__dirname, "src", "styles");
-const outDir = path.join(__dirname, "dist", "styles");
+const srcRoot = path.join(__dirname, "src");
+const srcDir = path.join(srcRoot, "styles");
+const distRoot = path.join(__dirname, "dist");
+const outDir = path.join(distRoot, "styles");
 
 // Ensure output directory exists
 if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true });
+}
+
+// Copy static files
+const indexSrc = path.join(srcRoot, "index.html");
+const indexDest = path.join(distRoot, "index.html");
+if (fs.existsSync(indexSrc)) {
+    fs.copyFileSync(indexSrc, indexDest);
 }
 
 // Find all SASS files (excluding partials)
