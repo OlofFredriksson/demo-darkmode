@@ -18,10 +18,13 @@ if (!fs.existsSync(outDir)) {
 }
 
 // Copy static files
-const indexSrc = path.join(srcRoot, "index.html");
-const indexDest = path.join(distRoot, "index.html");
-if (fs.existsSync(indexSrc)) {
-    fs.copyFileSync(indexSrc, indexDest);
+const staticFiles = ["index.html", "color-mode.js"];
+for (const fileName of staticFiles) {
+    const srcFile = path.join(srcRoot, fileName);
+    const destFile = path.join(distRoot, fileName);
+    if (fs.existsSync(srcFile)) {
+        fs.copyFileSync(srcFile, destFile);
+    }
 }
 
 // Find all SASS files (excluding partials)
