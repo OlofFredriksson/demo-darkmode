@@ -6,6 +6,48 @@
         <title>Dark mode</title>
         <link rel="stylesheet" href="styles/variables.css" />
         <link rel="stylesheet" href="styles/portal.css" />
+
+        <script type="module">
+            const htmlElement = document.documentElement;
+            const sessionKey = "color-mode";
+
+            let storedMode = null;
+            try {
+                storedMode = sessionStorage.getItem(sessionKey);
+            } catch (error) {
+                storedMode = null;
+            }
+
+            if (storedMode) {
+                htmlElement.setAttribute("data-color-mode", storedMode);
+            }
+
+            const initColorModeSelect = () => {
+                const colorModeSelect = document.getElementById("colorModeSelect");
+                if (!colorModeSelect) {
+                    return;
+                }
+
+                const initialMode = storedMode || htmlElement.getAttribute("data-color-mode") || "auto";
+                colorModeSelect.value = initialMode;
+
+                colorModeSelect.addEventListener("change", (e) => {
+                    const nextMode = e.target.value;
+                    htmlElement.setAttribute("data-color-mode", nextMode);
+                    try {
+                        sessionStorage.setItem(sessionKey, nextMode);
+                    } catch (error) {
+                        // Ignore storage errors
+                    }
+                });
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initColorModeSelect);
+            } else {
+                initColorModeSelect();
+            }
+        </script>
     </head>
     <body>
         <link rel="stylesheet" href="styles/header.css" />
@@ -54,15 +96,5 @@
                 </div>
             </div>
         </footer>
-        <script module>
-            const colorModeSelect = document.getElementById("colorModeSelect");
-            const htmlElement = document.documentElement;
-
-            colorModeSelect.value = htmlElement.getAttribute("data-color-mode") || "auto";
-
-            colorModeSelect.addEventListener("change", (e) => {
-                htmlElement.setAttribute("data-color-mode", e.target.value);
-            });
-        </script>
     </body>
 </html>
