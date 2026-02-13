@@ -7,6 +7,13 @@ $darkmode: (
     $darkmode: $darkmode
 );
 
+/** Default */
+/*
+@use "fkui/fkui" with (
+    $darkmode: $darkmode
+);
+*/
+
 #app .card {
     background-color: var(--color-background-primary);
     border: 1px solid var(--color-border-primary);
@@ -22,7 +29,7 @@ $darkmode: (
     padding: 1rem;
     border-radius: 4px;
 
-    /* Demo utav felaktigt scenario utav nyttjande utav enbar prefers-color-scheme */
+    /* Demo utav felaktigt scenario utav nyttjande utav prefers-color-scheme */
     /*
     @media (prefers-color-scheme: dark) {
         background-color: hotpink; //  Sägs att utvecklare gillar denna färgen 
