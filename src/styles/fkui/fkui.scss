@@ -1,0 +1,7 @@
+$darkmode: "" !default;
+
+@use "variables";
+variables.$darkmode: $darkmode;
+
+@use "badge";
+@forward "darkmodeMixin";

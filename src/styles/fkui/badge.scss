@@ -1,0 +1,13 @@
+@use "darkmodeMixin";
+.badge {
+    padding: 10px;
+    display: inline-block;
+    background-color: var(--color-badge-background-primary);
+    color: var(--color-badge-text-primary);
+    margin: 10px;
+    border-radius: 10px;
+
+    @include darkmodeMixin.darkmode() {
+        color: var(--color-badge-another-text-variable);
+    }
+}

@@ -1,0 +1,28 @@
+@use "sass:map";
+@use "variables";
+@mixin darkmode() {
+    $self: &;
+
+    @if variables.$darkmode != null and variables.$darkmode != "" {
+        $auto-selector: map.get(variables.$darkmode, "auto");
+        $query-selector: map.get(variables.$darkmode, "query");
+
+        @if $auto-selector != null and $auto-selector != "" {
+            @at-root #{$auto-selector} {
+                @media (prefers-color-scheme: dark) {
+                    #{$self} {
+                        @content;
+                    }
+                }
+            }
+        }
+
+        @if $query-selector != null and $query-selector != "" {
+            @at-root #{$query-selector} {
+                #{$self} {
+                    @content;
+                }
+            }
+        }
+    }
+}
